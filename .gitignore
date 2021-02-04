@@ -1,4 +1,5 @@
 # Logs
+.faunarc
 logs
 *.log
 npm-debug.log*

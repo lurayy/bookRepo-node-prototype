@@ -1,15 +1,12 @@
 import {db, dbQuery} from '../../../database.js';
-import {validateInt} from '../../../utils.js';
+import {cleanData, validateInt, errorHandler} from '../../../utils.js';
 
 const getStatus = async function (id){
-    id = 289580001929462285;
     let result = await db.query(
         dbQuery.Get(
             dbQuery.Ref(dbQuery.Collection('vendors'), id)
         )
-    ).then((data) =>{
-        console.log('Retrived Data : ',data);
-    })
+    )
     return result
 }
 
@@ -22,12 +19,12 @@ const listVendors = async function(req, res) {
         filter['after'] = [dbQuery.Ref(dbQuery.Collection('vendors'), req.query.afterId)]
     }
     let result = await db.query(
-        dbQuery.Paginate(dbQuery.Documents(dbQuery.Collection('vendors')), filter),
+        dbQuery.Map(
+            dbQuery.Paginate(dbQuery.Documents(dbQuery.Collection('vendors')), filter),
+            dbQuery.Lambda((ele) => dbQuery.Get(ele))
+        )
     )
-
-    console.log(result)
-    // let result = re
-    return res.send("hero")
+    return res.send(cleanData(result))
 }
 
 export {getStatus, listVendors};

@@ -1,6 +1,8 @@
 import faunadb from 'faunadb';
+import dotenv from 'dotenv';
 
-const db = new faunadb.Client({secret : ''});
+dotenv.config()
+const db = new faunadb.Client({secret : process.env.FAUNAKEY});
 const dbQuery = faunadb.query;
 
 export {db, dbQuery};

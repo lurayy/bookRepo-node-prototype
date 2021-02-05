@@ -1,5 +1,4 @@
 import express from 'express';
-import { execArgv } from 'process';
 import {getStatus, listVendors} from './registration/logic.js';
 
 const vendorRouter = express.Router();
@@ -10,8 +9,6 @@ vendorRouter.get('/:id', async (req, res) =>{
     res.send("What");
 })
 
-vendorRouter.get('', async(req, res) => {
-    return (listVendors(req, res));
-})
+vendorRouter.get('',(req, res, next) => listVendors(req, res, next).catch((err)=>next(err)))
 
 export {vendorRouter};

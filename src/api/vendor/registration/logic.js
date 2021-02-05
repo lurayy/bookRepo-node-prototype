@@ -1,5 +1,5 @@
 import {db, dbQuery} from '../../../database.js';
-import {cleanData, validateInt, errorHandler} from '../../../utils.js';
+import {cleanData, validateInt, dateTimeInString} from '../../../utils.js';
 
 const getStatus = async function (id){
     let result = await db.query(
@@ -10,13 +10,13 @@ const getStatus = async function (id){
     return result
 }
 
-const listVendors = async function(req, res) {
+async function listVendors(req, res){
     const size = validateInt(req.query.size)
     let filter =  {
         size : size==0?25:size
     }
-    if (req.query.afterId){
-        filter['after'] = [dbQuery.Ref(dbQuery.Collection('vendors'), req.query.afterId)]
+    if (req.query.after){
+        filter['after'] = [dbQuery.Ref(dbQuery.Collection('vendors'), req.query.after)]
     }
     let result = await db.query(
         dbQuery.Map(

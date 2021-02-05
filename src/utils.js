@@ -15,10 +15,10 @@ function validateInt(value){
    return (Number.isInteger(parseInt(value))?parseInt(value):0);
 }
 
-function errorHandler(target, property, descriptor){
-    console.log(target)
-    console.log(property)
-    console.log(descriptor)
+function dateTimeInString(dateTime){
+    let date_ob = new Date(dateTime);
+    return (`${date_ob.getFullYear()}-${date_ob.getMonth() + 1}-${date_ob.getDate()}.${date_ob.getHours()}:${date_ob.getMinutes()}:${date_ob.getSeconds()}`)
 }
 
-export {cleanData, validateInt, errorHandler}
+
+export {cleanData, validateInt, dateTimeInString}

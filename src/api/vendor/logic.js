@@ -1,5 +1,5 @@
-import {db, dbQuery} from '../../../database.js';
-import {cleanData, validateInt, dateTimeInString} from '../../../utils.js';
+import {db, dbQuery} from '../../database.js';
+import {cleanData, validateInt, dateTimeInString} from '../../utils.js';
 
 const getStatus = async function (id){
     let result = await db.query(
@@ -10,6 +10,11 @@ const getStatus = async function (id){
     return result
 }
 
+async function registerVendror(req, res){
+        
+}
+
+
 async function listVendors(req, res){
     const size = validateInt(req.query.size)
     let filter =  {
@@ -18,13 +23,14 @@ async function listVendors(req, res){
     if (req.query.after){
         filter['after'] = [dbQuery.Ref(dbQuery.Collection('vendors'), req.query.after)]
     }
-    let result = await db.query(
-        dbQuery.Map(
-            dbQuery.Paginate(dbQuery.Documents(dbQuery.Collection('vendors')), filter),
-            dbQuery.Lambda((ele) => dbQuery.Get(ele))
-        )
-    )
-    return res.send(cleanData(result))
+    // let result = await db.query(
+    //     dbQuery.Map(
+    //         dbQuery.Paginate(dbQuery.Documents(dbQuery.Collection('vendors')), filter),
+    //         dbQuery.Lambda((ele) => dbQuery.Get(ele))
+    //     )
+    // )
+    // return res.send(cleanData(result))
+    return res.send("Done")
 }
 
 export {getStatus, listVendors};

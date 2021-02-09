@@ -4,9 +4,15 @@ import {router} from './routes.js';
 import body_parser from 'body-parser';
 import fs from 'fs';
 import {dateTimeInString} from './utils.js';
-import { error } from 'console';
 
 const app = express();
+
+app.use(function(req, res, next){
+    console.log(req.headers);
+    next();
+})
+
+
 app.use(body_parser.json());
 app.use(router);
 

@@ -1,3 +1,5 @@
+import generateKeyPair from 'crypto';
+
 function cleanData(filthy, extraData = null){
     let response = {'data': []}
     let data = {}
@@ -20,5 +22,22 @@ function dateTimeInString(dateTime){
     return (`${date_ob.getFullYear()}-${date_ob.getMonth() + 1}-${date_ob.getDate()}.${date_ob.getHours()}:${date_ob.getMinutes()}:${date_ob.getSeconds()}`)
 }
 
+function generateKey(id){
+    const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
+        modulusLength: 2048,
+        publicKeyEncoding: {
+          type: 'spki',
+          format: 'pem'
+        },
+        privateKeyEncoding: {
+          type: 'pkcs8',
+          format: 'pem',
+          passphrase : id
+        }
+      }); 
+    return ({'publicKey':publicKey, 'privateKey':privateKey})
 
-export {cleanData, validateInt, dateTimeInString}
+}
+
+
+export {cleanData, validateInt, dateTimeInString, generateKey}

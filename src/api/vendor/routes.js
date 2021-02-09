@@ -1,5 +1,5 @@
 import express from 'express';
-import {getStatus, listVendors} from './registration/logic.js';
+import {getStatus, listVendors} from './logic.js';
 
 const vendorRouter = express.Router();
 

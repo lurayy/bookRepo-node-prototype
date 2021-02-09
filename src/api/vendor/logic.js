@@ -1,5 +1,6 @@
 import {db, dbQuery} from '../../database.js';
-import {cleanData, validateInt, dateTimeInString} from '../../utils.js';
+import {cleanData, validateInt, dateTimeInString, generateKey} from '../../utils.js';
+import slug from 'slug';
 
 async function getVendor(req, res){
     let result = await db.query(
@@ -11,14 +12,17 @@ async function getVendor(req, res){
 }
 
 async function registerVendor(req, res){
-    let vendorData = req.body
+    let vendorData = req.body;
+    let passKey = slug(req.body.name)
+    vendorData['vendorSlug'] = passKey
     let result = await db.query(
         dbQuery.Create(
             dbQuery.Collection('vendors'), {data : vendorData}
         )
     )
-    console.log(result)
-    res.send(cleanData(result))
+    const keys = generateKey(passKey)
+    result.data = [result.data]
+    res.send(cleanData(result, {'publicKey':keys['publicKey']}))
 }
 
 async function listVendors(req, res){

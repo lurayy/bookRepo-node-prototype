@@ -36,8 +36,6 @@ function generateKey(id){
         }
       }); 
     return ({'publicKey':publicKey, 'privateKey':privateKey})
-
 }
-
 
 export {cleanData, validateInt, dateTimeInString, generateKey}

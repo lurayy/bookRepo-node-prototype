@@ -2,7 +2,6 @@ import crypto from 'crypto';
 import fs from 'fs';
 
 function cleanData(filthy, extraData = null){
-  console.log(filthy)
     let response = {'data': []}
     let data = {}
     filthy.data.forEach(element => {
@@ -40,14 +39,14 @@ function generateKey(passKey,slug){
       }); 
     var dir = './keys/'+slug;
     if (!fs.existsSync(dir)){
-      console.log('make dir')
         fs.mkdir(dir, (error)=>{
           console.log(error);
         });
     }
-    console.log('exists')
     fs.writeFile('./keys/'+slug+'/'+passKey+'.pem', privateKey, (error)=>{
-      console.log("writing error", error)
+      if (error){
+        console.log("writing error", error)
+      }
     })
     return ({'publicKey':publicKey})
 }

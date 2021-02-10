@@ -8,7 +8,6 @@ import {dateTimeInString} from './utils.js';
 const app = express();
 
 app.use(async function(req, res, next){
-    console.log(req.headers.authorization);
     if (req.headers.authorization){
         let result = null;
         try{
@@ -30,10 +29,13 @@ app.use(async function(req, res, next){
     }
 })
 
-app.use(body_parser.json());
-app.post('*', ()=>{
-    console.log("POST Happened.")
+app.post('*', async function(req, res, next){
+    console.log("Hey I AM POSTING HERE ! ");
+    next();
 })
+
+app.use(body_parser.json());
+
 app.use(router);
 
 const PORT = 8000;

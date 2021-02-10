@@ -1,21 +1,23 @@
-# POST http://localhost:8000/api/vendors/ HTTP/1.1
-# content-type : application/json
+POST http://localhost:8000/api/vendors/ HTTP/1.1
+content-type : application/json
+Authorization: 289580001929462285
 
-# {
-#     "name" : "Books Mandala Nepasdfal",
-#     "address" : "LakeSide Pokahra",
-#     "contactNumber" : "+977-061-453203",
-#     "PAN" : "8945",
-#     "email" : "contact@booksmandala.com",
-#     "vendorContact" : {
-#         "firstName" : "Vendorcontact",
-#         "lastName" : "Of there",
-#         "contactNumber" : "+977-98466-5589",
-#         "email" : "contact@booksmandala.com"
-#     },
-#     "keyUUID" : "6589465-87451-7845" 
-# }
+{
+    "name" : "Books Mandala Nepasdfal",
+    "address" : "LakeSide Pokahra",
+    "contactNumber" : "+977-061-453203",
+    "PAN" : "8945",
+    "email" : "contact@booksmandala.com",
+    "vendorContact" : {
+        "firstName" : "Vendorcontact",
+        "lastName" : "Of there",
+        "contactNumber" : "+977-98466-5589",
+        "email" : "contact@booksmandala.com"
+    },
+    "keyUUID" : "6589465-87451-7845" 
+}
+
 GET http://localhost:8000/api/vendors/?size=2 HTTP/1.1
 content-type : application/json
-Authorization: 2895800019294622850
+Authorization: 289580001929462285
 

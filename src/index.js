@@ -10,12 +10,16 @@ const app = express();
 app.use(async function(req, res, next){
     console.log(req.headers.authorization);
     if (req.headers.authorization){
-        let result = await db.query(
-            dbQuery.Get(
-                dbQuery.Ref(dbQuery.Collection('vendors'), req.headers.authorization)
+        let result = null;
+        try{
+            result = await db.query(
+                dbQuery.Get(
+                    dbQuery.Ref(dbQuery.Collection('vendors'), req.headers.authorization)
+                )
             )
-        )
-        console.log("Result : ", result)
+        }catch{
+            result = null
+        }
         if (result){
             next();
         }else{

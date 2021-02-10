@@ -13,16 +13,14 @@ async function getVendor(req, res){
 
 async function registerVendor(req, res){
     let vendorData = req.body;
-    let passKey = slug(req.body.name)
-    vendorData['vendorSlug'] = passKey
+    vendorData['vendorSlug'] = slug(req.body.name)
     let result = await db.query(
         dbQuery.Create(
             dbQuery.Collection('vendors'), {data : vendorData}
         )
     )
-    const keys = generateKey(passKey)
-    result.data = [result.data]
-    res.send(cleanData(result, {'publicKey':keys['publicKey']}))
+    const keys = generateKey(result.ref.id, result.data.vendorSlug)
+    res.send(cleanData({'data':[result]}, {'publicKey':keys['publicKey']}))
 }
 
 async function listVendors(req, res){

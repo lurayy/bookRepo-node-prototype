@@ -2,7 +2,7 @@ POST http://localhost:8000/api/vendors/ HTTP/1.1
 content-type : application/json
 
 {
-    "name" : "Books Mandala Nepal",
+    "name" : "Books Mandala Nepasdfal",
     "address" : "LakeSide Pokahra",
     "contactNumber" : "+977-061-453203",
     "PAN" : "8945",

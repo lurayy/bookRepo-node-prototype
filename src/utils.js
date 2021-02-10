@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import fs from 'fs';
 
 function cleanData(filthy, extraData = null){
+  console.log(filthy)
     let response = {'data': []}
     let data = {}
     filthy.data.forEach(element => {
@@ -23,7 +24,7 @@ function dateTimeInString(dateTime){
     return (`${date_ob.getFullYear()}-${date_ob.getMonth() + 1}-${date_ob.getDate()}.${date_ob.getHours()}:${date_ob.getMinutes()}:${date_ob.getSeconds()}`)
 }
 
-function generateKey(passKey){
+function generateKey(passKey,slug){
     const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
         modulusLength: 2048,
         publicKeyEncoding: {
@@ -37,7 +38,7 @@ function generateKey(passKey){
           passphrase : passKey
         }
       }); 
-    var dir = './keys/'+passKey;
+    var dir = './keys/'+slug;
     if (!fs.existsSync(dir)){
       console.log('make dir')
         fs.mkdir(dir, (error)=>{
@@ -45,7 +46,7 @@ function generateKey(passKey){
         });
     }
     console.log('exists')
-    fs.writeFile('./keys/'+passKey+'/privateKey.pem', privateKey, (error)=>{
+    fs.writeFile('./keys/'+slug+'/'+passKey+'.pem', privateKey, (error)=>{
       console.log("writing error", error)
     })
     return ({'publicKey':publicKey})

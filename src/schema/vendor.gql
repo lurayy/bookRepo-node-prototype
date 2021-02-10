@@ -10,5 +10,4 @@ type vendor {
         contactNumber : String!,
         email : String!
     },
-    keyUUID : String! @unique 
 }

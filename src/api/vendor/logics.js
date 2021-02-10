@@ -42,4 +42,17 @@ async function listVendors(req, res){
     return res.send(cleanData(result))
 }
 
-export {getVendor, registerVendor, listVendors};
+async function updateVendor(req, res){
+    let vendorData = req.body;
+    let result = await db.query(
+        dbQuery.Update(
+            dbQuery.Ref(dbQuery.Collection('vendors'), req.params.id), vendorData 
+        )
+    )
+    // const keys = generateKey(passKey)
+    result.data = [result.data]
+    res.send(cleanData(result, {'publicKey':keys['publicKey']}))
+}
+
+
+export {getVendor, registerVendor, listVendors, updateVendor};

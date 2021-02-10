@@ -1,4 +1,5 @@
 # Logs
+*/keys/*
 .faunarc
 logs
 *.log

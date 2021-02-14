@@ -1,0 +1,29 @@
+type Vendor {
+  name: String! @unique
+  address: String!
+  contactNumber: String!,
+  secondaryContactNumber: String,
+  PAN: String!
+  firstName: String!
+  lastName: String!
+  email: String
+}
+
+type Book {
+  name: String!
+  category: String!
+  genre: [String!]!
+  barCode: String!
+  slug: String @unique
+  description: String
+  weight: Float
+  salesPrice: Float!
+  coverType: String
+  publisher: String
+  stock: Int!
+  countPage: Int
+  edition: Int
+  language: [String]
+  authorName: String!
+  sold: Int!
+}

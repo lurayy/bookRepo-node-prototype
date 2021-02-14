@@ -3,12 +3,7 @@ import {cleanData, validateInt, dateTimeInString, generateKey} from '../../utils
 import slug from 'slug';
 
 async function getVendor(req, res){
-    let result = await db.query(
-        dbQuery.Get(
-            dbQuery.Ref(dbQuery.Collection('vendors'),req.params.id)
-        )
-    )
-    return res.send(cleanData({'data':[result]}))
+    return res.send(req.user);
 }
 
 async function registerVendor(req, res){
@@ -16,11 +11,13 @@ async function registerVendor(req, res){
     vendorData['vendorSlug'] = slug(req.body.name)
     let result = await db.query(
         dbQuery.Create(
-            dbQuery.Collection('vendors'), {data : vendorData}
+            dbQuery.Collection('Vendor'), {data : vendorData}
         )
     )
-    const keys = generateKey(result.ref.id, result.data.vendorSlug)
-    res.send(cleanData({'data':[result]}, {'publicKey':keys['publicKey']}))
+    // const keys = generateKey(result.ref.id, result.data.vendorSlug)
+    // console.log('erher')
+    // res.send(cleanData({'data':[result]}, {'publicKey':keys['publicKey']}))
+    res.send(cleanData({'data':[result]}))
 }
 
 async function listVendors(req, res){
@@ -29,11 +26,11 @@ async function listVendors(req, res){
         size : size==0?25:size
     }
     if (req.query.after){
-        filter['after'] = [dbQuery.Ref(dbQuery.Collection('vendors'), req.query.after)]
+        filter['after'] = [dbQuery.Ref(dbQuery.Collection('Vendor'), req.query.after)]
     }
     let result = await db.query(
         dbQuery.Map(
-            dbQuery.Paginate(dbQuery.Documents(dbQuery.Collection('vendors')), filter),
+            dbQuery.Paginate(dbQuery.Documents(dbQuery.Collection('Vendor')), filter),
             dbQuery.Lambda((ele) => dbQuery.Get(ele))
         )
     )
@@ -44,12 +41,11 @@ async function updateVendor(req, res){
     let vendorData = req.body;
     let result = await db.query(
         dbQuery.Update(
-            dbQuery.Ref(dbQuery.Collection('vendors'), req.params.id), vendorData 
+            dbQuery.Ref(dbQuery.Collection('Vendor'), req.params.id), vendorData 
         )
     )
     // const keys = generateKey(passKey)
-    result.data = [result.data]
-    res.send(cleanData(result, {'publicKey':keys['publicKey']}))
+    res.send(cleanData({'data':[result]}))
 }
 
 

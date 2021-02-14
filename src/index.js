@@ -3,7 +3,8 @@ import {db ,dbQuery} from './database.js';
 import {router} from './routes.js';
 import body_parser from 'body-parser';
 import fs from 'fs';
-import {dateTimeInString} from './utils.js';
+import {cleanData, dateTimeInString} from './utils.js';
+import {privateDecrypt} from 'crypto';
 
 const app = express();
 
@@ -13,9 +14,10 @@ app.use(async function(req, res, next){
         try{
             result = await db.query(
                 dbQuery.Get(
-                    dbQuery.Ref(dbQuery.Collection('vendors'), req.headers.authorization)
+                    dbQuery.Ref(dbQuery.Collection('Vendor'), req.headers.authorization)
                 )
             )
+            req['user'] = cleanData({'data':[result]})['data'][0];
         }catch{
             result = null
         }
@@ -28,13 +30,27 @@ app.use(async function(req, res, next){
         res.status(400).send('Unauthorized Access !')        
     }
 })
+app.use(body_parser.json());
 
 app.post('*', async function(req, res, next){
-    console.log("Hey I AM POSTING HERE ! ");
+    console.log(req.body);
     next();
+    // let path = "keys/"+req.user.vendorSlug+'/'+req.user.id+'.pem';
+    // console.log(path);
+    // if (fs.existsSync(path)){
+    //     let privateKey = fs.readFileSync(path, 'utf8', function(error){
+    //         console.log("error reading file : ", error)
+    //     });
+    //     console.log('encrypted',body);
+    //     let body = privateDecrypt(privateKey, req.body);
+    //     console.log(body);
+    //     console.log("yooo path");
+    //     next();
+    // }else{
+    //     res.send.status(500).send('No KeyPair found for given vendor.')
+    // }
 })
 
-app.use(body_parser.json());
 
 app.use(router);
 
